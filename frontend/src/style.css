@@ -1,0 +1,100 @@
+/* Inter + JetBrains Mono via Google Fonts (Wails 内嵌环境会从 CDN 加载，离线时回退到系统字体) */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+:root {
+    /* Tokyo Night (默认深色) */
+    --bg: #1a1b26;
+    --bg-elev: #1f2335;
+    --bg-elev-2: #24283b;
+    --bg-hover: #2a2f45;
+    --border: #292e42;
+    --border-strong: #3b4261;
+
+    --text: #c0caf5;
+    --text-dim: #9aa5ce;
+    --text-muted: #565f89;
+
+    --accent: #7aa2f7;       /* 蓝 */
+    --accent-cyan: #7dd3fc;  /* 青 */
+    --accent-green: #9ece6a; /* 绿 */
+    --accent-yellow: #e0af68;/* 黄 */
+    --accent-red: #f7768e;   /* 红 */
+    --accent-purple: #bb9af7;/* 紫 */
+    --accent-orange: #ff9e64;/* 橙 */
+
+    --shadow-sm: 0 1px 2px rgba(0,0,0,0.3);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.35);
+    --shadow-lg: 0 10px 30px rgba(0,0,0,0.45);
+}
+
+/* 亮色主题 */
+[data-theme="light"] {
+    --bg: #f5f5f7;
+    --bg-elev: #ffffff;
+    --bg-elev-2: #fafafd;
+    --bg-hover: #eef0f6;
+    --border: #e2e4ec;
+    --border-strong: #c7cbd9;
+
+    --text: #1a1b26;
+    --text-dim: #4f5273;
+    --text-muted: #8389a8;
+
+    --accent: #2563eb;
+    --accent-cyan: #0891b2;
+    --accent-green: #059669;
+    --accent-yellow: #d97706;
+    --accent-red: #dc2626;
+    --accent-purple: #7c3aed;
+    --accent-orange: #ea580c;
+
+    --shadow-sm: 0 1px 2px rgba(20,30,60,0.06);
+    --shadow-md: 0 4px 12px rgba(20,30,60,0.10);
+    --shadow-lg: 0 10px 30px rgba(20,30,60,0.14);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', "Segoe UI", -apple-system, BlinkMacSystemFont,
+        "PingFang SC", "Microsoft YaHei", sans-serif;
+    font-size: 13.5px;
+    overflow: hidden;
+    user-select: none;
+    -webkit-font-smoothing: antialiased;
+    transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+#app {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+button {
+    font-family: inherit;
+}
+
+/* 等宽字体（数字、PID、内存等） */
+.mono, .num, code, pre {
+    font-family: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+    font-feature-settings: "tnum" 1;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+    background: var(--border-strong);
+    border-radius: 5px;
+}
+::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }

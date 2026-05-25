@@ -1,0 +1,32 @@
+# Build outputs
+build/bin/
+*.exe
+*.exe~
+
+# Frontend
+node_modules/
+frontend/dist/
+frontend/wailsjs/
+
+# Wails generated bindings (会在 build 时重新生成)
+# 取消下一行注释可保留绑定
+# !frontend/wailsjs/
+
+# 配置文件（含 API Key 等敏感信息）
+config.json
+config.local.json
+
+# IDE / OS
+.idea/
+.vscode/
+*.swp
+.DS_Store
+Thumbs.db
+
+# Go
+*.test
+*.prof
+*.out
+
+# 日志
+*.log
