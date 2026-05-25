@@ -9,6 +9,9 @@
 [![Built with Wails](https://img.shields.io/badge/Built%20with-Wails-red)](https://wails.io)
 [![Go](https://img.shields.io/badge/Go-1.23+-00ADD8)](https://go.dev)
 [![Platform](https://img.shields.io/badge/Platform-Windows-blue)]()
+[![GitHub release](https://img.shields.io/github/v/release/owouwla2/MemorAI?include_prereleases&label=release)](https://github.com/owouwla2/MemorAI/releases/latest)
+[![Downloads](https://img.shields.io/github/downloads/owouwla2/MemorAI/total.svg)](https://github.com/owouwla2/MemorAI/releases)
+[![Build](https://github.com/owouwla2/MemorAI/actions/workflows/build.yml/badge.svg)](https://github.com/owouwla2/MemorAI/actions/workflows/build.yml)
 
 ---
 

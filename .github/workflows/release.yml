@@ -1,0 +1,76 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'   # 例: v0.4.0, v1.0.0
+  workflow_dispatch:  # 允许手动触发
+
+permissions:
+  contents: write   # 上传 release 资产需要写权限
+
+jobs:
+  build-windows:
+    name: Build Windows AMD64
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.23'
+          cache: true
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install Wails CLI
+        run: go install github.com/wailsapp/wails/v2/cmd/wails@latest
+
+      - name: Build MemorAI (Windows)
+        run: wails build -clean -platform windows/amd64
+        env:
+          CGO_ENABLED: 0
+
+      - name: Verify artifact
+        shell: pwsh
+        run: |
+          $exe = "build/bin/MemorAI.exe"
+          if (-not (Test-Path $exe)) { Write-Error "MemorAI.exe not found"; exit 1 }
+          $size = [math]::Round((Get-Item $exe).Length / 1MB, 2)
+          Write-Host "✓ Built MemorAI.exe ($size MB)"
+
+      - name: Upload artifact (for non-tag runs)
+        if: github.event_name == 'workflow_dispatch'
+        uses: actions/upload-artifact@v4
+        with:
+          name: MemorAI-windows-amd64
+          path: build/bin/MemorAI.exe
+
+      - name: Create Release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          name: ${{ github.ref_name }}
+          generate_release_notes: true
+          files: |
+            build/bin/MemorAI.exe
+          body: |
+            ## 🧠 MemorAI ${{ github.ref_name }}
+
+            **下载**：直接下载下方的 `MemorAI.exe`，双击运行（Windows 10/11 自带 WebView2）。
+
+            **首次使用**：
+            1. 进入「⚙ 设置」配置你的 AI API（推荐 [DeepSeek](https://platform.deepseek.com)）
+            2. 点击「🔄 刷新」开始分析
+            3. 想管理系统级自启项？右键 exe → 以管理员身份运行
+
+            ---
+
+            ### Changelog
