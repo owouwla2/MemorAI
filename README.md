@@ -5,6 +5,8 @@
 让 AI 帮你解读电脑为什么这么慢。
 *Let AI explain why your PC is sluggish.*
 
+**🪶 双形态：6MB CLI（25MB 内存）+ 12MB 桌面 GUI**，按需选择。
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Built with Wails](https://img.shields.io/badge/Built%20with-Wails-red)](https://wails.io)
 [![Go](https://img.shields.io/badge/Go-1.23+-00ADD8)](https://go.dev)
@@ -48,6 +50,15 @@
 
 ### 🚀 快速开始
 
+MemorAI 提供两种形态，按需选择：
+
+| 形态 | 文件 | 内存占用 | 特点 |
+|------|------|---------|------|
+| 🪟 **桌面 GUI** | `MemorAI.exe` (~12MB) | ~390MB | Tokyo Night 现代 UI、图表、对话式 AI |
+| ⚡ **命令行 CLI** | `memorai-cli.exe` (~7MB) | **~25MB** | 极轻量、可脚本化、自带 ANSI 折线图 |
+
+#### 桌面版用法
+
 #### 直接使用（推荐）
 
 1. 下载 [Releases](https://github.com/owouwla2/MemorAI/releases) 中的最新 `MemorAI.exe`
@@ -69,13 +80,46 @@ go install github.com/wailsapp/wails/v2/cmd/wails@latest
 git clone https://github.com/owouwla2/MemorAI
 cd MemorAI
 
-# 开发模式（热重载）
-wails dev
-
-# 打包生产版
+# === 桌面版 ===
 wails build
 # 输出: build/bin/MemorAI.exe
+
+# === CLI 版 ===
+go build -trimpath -ldflags "-s -w" -o build/bin/memorai-cli.exe ./cmd/memorai-cli
+# 输出: build/bin/memorai-cli.exe (约 6-7 MB)
 ```
+
+#### 命令行版用法
+
+> ⚡ 极轻量：6.6MB exe，运行时 25MB 内存
+
+```bash
+# 一键采集（带 ANSI 颜色 + 进度条）
+memorai-cli analyze
+memorai-cli analyze --json         # 输出 JSON 给脚本用
+memorai-cli analyze --markdown     # 输出 Markdown 报告
+
+# 让 AI 分析（先用 config 配置 API Key）
+memorai-cli config set ai-key sk-xxxxxxxxxxxx
+memorai-cli config set ai-base-url https://api.deepseek.com/v1
+memorai-cli config set ai-model deepseek-chat
+memorai-cli ai
+
+# 30 秒采样（带 sparkline 折线图）
+memorai-cli monitor --seconds 30
+memorai-cli monitor --seconds 60 -o report.json
+
+# 自启项管理
+memorai-cli startup list
+memorai-cli startup disable <id>
+memorai-cli startup enable  <id>
+
+# 配置查看
+memorai-cli config show
+memorai-cli config path
+```
+
+> 💡 桌面版和 CLI 版**共用同一个 `config.json`**，配置一次两边都能用。
 
 ### ⚙️ AI 配置
 

@@ -57,6 +57,7 @@ func IsRunning() bool {
 
 // Start 开始一次采样
 // duration: 总时长（秒），interval: 采样间隔（秒）
+// ctx 可为 nil（CLI 调用场景，不会发射进度事件）
 func Start(ctx context.Context, duration, interval int) (*Result, error) {
 	mu.Lock()
 	if running {
@@ -70,6 +71,14 @@ func Start(ctx context.Context, duration, interval int) (*Result, error) {
 		running = false
 		mu.Unlock()
 	}()
+
+	// wailsCtx 用于发射事件（nil 时不发射，CLI 模式）
+	wailsCtx := ctx
+	// runCtx 用于 select；nil 时用 Background 避免 panic
+	runCtx := ctx
+	if runCtx == nil {
+		runCtx = context.Background()
+	}
 
 	if duration <= 0 {
 		duration = 30
@@ -130,8 +139,8 @@ func Start(ctx context.Context, duration, interval int) (*Result, error) {
 		}
 		samples = append(samples, s)
 
-		if ctx != nil {
-			wailsruntime.EventsEmit(ctx, "monitor:progress", map[string]interface{}{
+		if wailsCtx != nil {
+			wailsruntime.EventsEmit(wailsCtx, "monitor:progress", map[string]interface{}{
 				"index":   idx + 1,
 				"total":   totalSamples,
 				"sample":  s,
@@ -147,8 +156,8 @@ func Start(ctx context.Context, duration, interval int) (*Result, error) {
 
 	for i := 1; i < totalSamples; i++ {
 		select {
-		case <-ctx.Done():
-			return nil, ctx.Err()
+		case <-runCtx.Done():
+			return nil, runCtx.Err()
 		case <-ticker.C:
 			if err := collectAndAppend(i); err != nil {
 				return nil, err
@@ -200,8 +209,8 @@ func Start(ctx context.Context, duration, interval int) (*Result, error) {
 	}
 
 	// 完成事件
-	if ctx != nil {
-		wailsruntime.EventsEmit(ctx, "monitor:done", res)
+	if wailsCtx != nil {
+		wailsruntime.EventsEmit(wailsCtx, "monitor:done", res)
 	}
 
 	return res, nil

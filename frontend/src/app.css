@@ -56,7 +56,7 @@
     letter-spacing: 0.6px;
 }
 .hud-value {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: var(--font-mono);
     font-size: 14px;
     font-weight: 600;
     color: var(--text);
@@ -118,7 +118,7 @@
     display: flex;
     justify-content: space-between;
     flex-shrink: 0;
-    font-family: 'JetBrains Mono', monospace;
+    font-family: var(--font-mono);
 }
 
 /* ============= 按钮 ============= */
@@ -250,7 +250,7 @@
 .gauge-info .row:last-child { border: none; }
 .gauge-info .row .k { color: var(--text-muted); }
 .gauge-info .row .v {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: var(--font-mono);
     color: var(--text);
     font-weight: 500;
 }
@@ -277,7 +277,7 @@
     margin-bottom: 2px;
 }
 .stat-cell .v {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: var(--font-mono);
     font-size: 16px;
     font-weight: 600;
     color: var(--text);
@@ -326,26 +326,26 @@
     color: var(--text-muted);
     font-size: 10.5px;
     margin-top: 2px;
-    font-family: 'JetBrains Mono', monospace;
+    font-family: var(--font-mono);
     overflow: hidden;
     text-overflow: ellipsis;
 }
 .list-row .mem {
     color: var(--accent-cyan);
-    font-family: 'JetBrains Mono', monospace;
+    font-family: var(--font-mono);
     font-weight: 600;
     text-align: right;
 }
 .list-row .pct {
     color: var(--text-dim);
-    font-family: 'JetBrains Mono', monospace;
+    font-family: var(--font-mono);
     text-align: right;
 }
 .list-row .pcount {
     color: var(--text-muted);
     text-align: center;
     font-size: 11px;
-    font-family: 'JetBrains Mono', monospace;
+    font-family: var(--font-mono);
 }
 .list-row .chev {
     color: var(--text-muted);
@@ -372,7 +372,7 @@
     border-bottom: 1px solid var(--border);
     font-size: 11.5px;
     color: var(--text-dim);
-    font-family: 'JetBrains Mono', monospace;
+    font-family: var(--font-mono);
 }
 .sub-procs .sp-row {
     display: flex;
@@ -497,7 +497,7 @@
 .list-row.startup-row:hover { background: var(--bg-hover); }
 .list-row.startup-row .name .sub {
     color: var(--text-muted);
-    font-family: 'JetBrains Mono', monospace;
+    font-family: var(--font-mono);
     font-size: 10.5px;
 }
 .list-row.startup-row button {
@@ -588,7 +588,7 @@
     overflow-y: auto;
     white-space: pre-wrap;
     user-select: text;
-    font-family: 'JetBrains Mono', monospace;
+    font-family: var(--font-mono);
 }
 
 .msg-assistant .msg-body h2 {
@@ -614,7 +614,7 @@
     border-radius: 3px;
     color: var(--accent-red);
     font-size: 12px;
-    font-family: 'JetBrains Mono', monospace;
+    font-family: var(--font-mono);
 }
 
 .chat-input {
@@ -693,7 +693,7 @@
     line-height: 1.5;
     resize: vertical;
     min-height: 110px;
-    font-family: 'JetBrains Mono', monospace;
+    font-family: var(--font-mono);
     font-size: 12px;
 }
 .field code {
@@ -701,7 +701,7 @@
     padding: 1px 5px;
     border-radius: 3px;
     color: var(--accent-orange);
-    font-family: 'JetBrains Mono', monospace;
+    font-family: var(--font-mono);
     font-size: 11px;
 }
 .field .hint a {
@@ -746,7 +746,7 @@
     line-height: 1.6;
     white-space: pre-wrap;
     user-select: text;
-    font-family: 'JetBrains Mono', monospace;
+    font-family: var(--font-mono);
 }
 
 .toast {

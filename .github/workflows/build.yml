@@ -31,8 +31,11 @@ jobs:
       - name: Go vet
         run: go vet ./...
 
-      - name: Go build
+      - name: Go build (all packages including CLI)
         run: go build ./...
+
+      - name: Build memorai-cli
+        run: go build -trimpath -ldflags "-s -w" -o build/bin/memorai-cli.exe ./cmd/memorai-cli
 
       - name: Install Wails CLI
         run: go install github.com/wailsapp/wails/v2/cmd/wails@latest

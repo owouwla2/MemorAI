@@ -1,6 +1,31 @@
 import './style.css';
 import './app.css';
-import Chart from 'chart.js/auto';
+// Chart.js 按需引入：只注册用到的组件，减少包体积
+import {
+    Chart,
+    LineController,
+    LineElement,
+    PointElement,
+    DoughnutController,
+    ArcElement,
+    CategoryScale,
+    LinearScale,
+    Tooltip,
+    Legend,
+    Title,
+    Filler,
+} from 'chart.js';
+Chart.register(
+    LineController, LineElement, PointElement,
+    DoughnutController, ArcElement,
+    CategoryScale, LinearScale,
+    Tooltip, Legend, Title, Filler
+);
+// 全局禁用动画（减少 GPU/CPU 占用）
+Chart.defaults.animation = false;
+Chart.defaults.animations.colors = false;
+Chart.defaults.animations.x = false;
+Chart.defaults.animations.y = false;
 
 // ===== SVG 图标系统（Lucide 风格，统一 currentColor） =====
 const ICONS = {

@@ -1,5 +1,7 @@
-/* Inter + JetBrains Mono via Google Fonts (Wails 内嵌环境会从 CDN 加载，离线时回退到系统字体) */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+/*
+ * 字体策略：完全使用系统字体，零网络依赖
+ * Win10/11 默认有 Segoe UI Variable, Cascadia Code, Consolas
+ */
 
 :root {
     /* Tokyo Night (默认深色) */
@@ -14,20 +16,25 @@
     --text-dim: #9aa5ce;
     --text-muted: #565f89;
 
-    --accent: #7aa2f7;       /* 蓝 */
-    --accent-cyan: #7dd3fc;  /* 青 */
-    --accent-green: #9ece6a; /* 绿 */
-    --accent-yellow: #e0af68;/* 黄 */
-    --accent-red: #f7768e;   /* 红 */
-    --accent-purple: #bb9af7;/* 紫 */
-    --accent-orange: #ff9e64;/* 橙 */
+    --accent: #7aa2f7;
+    --accent-cyan: #7dd3fc;
+    --accent-green: #9ece6a;
+    --accent-yellow: #e0af68;
+    --accent-red: #f7768e;
+    --accent-purple: #bb9af7;
+    --accent-orange: #ff9e64;
 
     --shadow-sm: 0 1px 2px rgba(0,0,0,0.3);
     --shadow-md: 0 4px 12px rgba(0,0,0,0.35);
     --shadow-lg: 0 10px 30px rgba(0,0,0,0.45);
+
+    /* 系统字体栈 */
+    --font-sans: "Segoe UI Variable", "Segoe UI", -apple-system, BlinkMacSystemFont,
+        "PingFang SC", "Microsoft YaHei", "Source Han Sans CN", sans-serif;
+    --font-mono: "Cascadia Code", "Cascadia Mono", Consolas, "Courier New",
+        ui-monospace, "SF Mono", monospace;
 }
 
-/* 亮色主题 */
 [data-theme="light"] {
     --bg: #f5f5f7;
     --bg-elev: #ffffff;
@@ -63,8 +70,7 @@ html, body {
     height: 100%;
     background-color: var(--bg);
     color: var(--text);
-    font-family: 'Inter', "Segoe UI", -apple-system, BlinkMacSystemFont,
-        "PingFang SC", "Microsoft YaHei", sans-serif;
+    font-family: var(--font-sans);
     font-size: 13.5px;
     overflow: hidden;
     user-select: none;
@@ -78,23 +84,14 @@ html, body {
     flex-direction: column;
 }
 
-button {
-    font-family: inherit;
-}
+button { font-family: inherit; }
 
-/* 等宽字体（数字、PID、内存等） */
 .mono, .num, code, pre {
-    font-family: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+    font-family: var(--font-mono);
     font-feature-settings: "tnum" 1;
 }
 
-::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
-}
+::-webkit-scrollbar { width: 10px; height: 10px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb {
-    background: var(--border-strong);
-    border-radius: 5px;
-}
+::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 5px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }

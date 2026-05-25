@@ -33,25 +33,36 @@ jobs:
       - name: Install Wails CLI
         run: go install github.com/wailsapp/wails/v2/cmd/wails@latest
 
-      - name: Build MemorAI (Windows)
+      - name: Build MemorAI Desktop (Windows)
         run: wails build -clean -platform windows/amd64
         env:
           CGO_ENABLED: 0
 
-      - name: Verify artifact
+      - name: Build memorai-cli (Windows)
+        run: go build -trimpath -ldflags "-s -w" -o build/bin/memorai-cli.exe ./cmd/memorai-cli
+        env:
+          CGO_ENABLED: 0
+
+      - name: Verify artifacts
         shell: pwsh
         run: |
-          $exe = "build/bin/MemorAI.exe"
-          if (-not (Test-Path $exe)) { Write-Error "MemorAI.exe not found"; exit 1 }
-          $size = [math]::Round((Get-Item $exe).Length / 1MB, 2)
-          Write-Host "✓ Built MemorAI.exe ($size MB)"
+          $gui = "build/bin/MemorAI.exe"
+          $cli = "build/bin/memorai-cli.exe"
+          if (-not (Test-Path $gui)) { Write-Error "MemorAI.exe not found"; exit 1 }
+          if (-not (Test-Path $cli)) { Write-Error "memorai-cli.exe not found"; exit 1 }
+          $gsize = [math]::Round((Get-Item $gui).Length / 1MB, 2)
+          $csize = [math]::Round((Get-Item $cli).Length / 1MB, 2)
+          Write-Host "✓ Built MemorAI.exe ($gsize MB)"
+          Write-Host "✓ Built memorai-cli.exe ($csize MB)"
 
       - name: Upload artifact (for non-tag runs)
         if: github.event_name == 'workflow_dispatch'
         uses: actions/upload-artifact@v4
         with:
           name: MemorAI-windows-amd64
-          path: build/bin/MemorAI.exe
+          path: |
+            build/bin/MemorAI.exe
+            build/bin/memorai-cli.exe
 
       - name: Create Release
         if: startsWith(github.ref, 'refs/tags/v')
@@ -61,15 +72,21 @@ jobs:
           generate_release_notes: true
           files: |
             build/bin/MemorAI.exe
+            build/bin/memorai-cli.exe
           body: |
             ## 🧠 MemorAI ${{ github.ref_name }}
 
-            **下载**：直接下载下方的 `MemorAI.exe`，双击运行（Windows 10/11 自带 WebView2）。
+            **两种形态，按需选择：**
+
+            | 形态 | 文件 | 占用内存 |
+            |------|------|---------|
+            | 🪟 桌面版 | `MemorAI.exe` | ~390 MB |
+            | ⚡ CLI 版 | `memorai-cli.exe` | ~25 MB ⭐ |
 
             **首次使用**：
-            1. 进入「⚙ 设置」配置你的 AI API（推荐 [DeepSeek](https://platform.deepseek.com)）
-            2. 点击「🔄 刷新」开始分析
-            3. 想管理系统级自启项？右键 exe → 以管理员身份运行
+            1. 在「设置」(GUI) 或 `memorai-cli config set ai-key xxx` (CLI) 配置 API Key
+            2. 推荐 [DeepSeek](https://platform.deepseek.com)，便宜且国内速度快
+            3. 想管理系统级自启项？以管理员身份运行
 
             ---
 
